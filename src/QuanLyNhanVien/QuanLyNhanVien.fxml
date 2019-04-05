@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="QuanLyNhanVien.Controller">
+   <children>
+      <TextField id="tfSearch" fx:id="tfSearch" layoutX="784.0" layoutY="20.0" prefHeight="18.0" prefWidth="235.0" promptText="Search...">
+         	<font>
+              	<Font name="SansSerif Regular" size="13.0" />
+        	</font>
+      </TextField>
+      <Label layoutX="713.0" layoutY="25.0" prefHeight="18.0" prefWidth="71.0" text="Tìm kiếm" />
+      <Button id="btnSearch" fx:id="btnRefresh" layoutX="343.0" layoutY="16.0" mnemonicParsing="false" onAction="#Refresh" text="Refresh" textFill="#4bb9cd">
+         <font>
+            <Font name="Ubuntu Light" size="13.0" />
+         </font>
+      </Button>
+      <Pane layoutX="33.0" layoutY="69.0" prefHeight="435.0" prefWidth="227.0" style="-fx-background-color: rgb(216, 229, 241);">
+         <children>
+            <Label layoutX="71.0" layoutY="4.0" text="Thông tin">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="26.0" text="Mã nhân viên" />
+            <TextField id="tfM" fx:id="tfID" editable="false" layoutX="24.0" layoutY="47.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="14.0" layoutY="83.0" text="Họ tên">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField id="tfH" fx:id="tfName" layoutX="24.0" layoutY="107.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="14.0" layoutY="140.0" text="Giới tính:" />
+           	<RadioButton id="rdoNam" fx:id="rdoNam" graphicTextGap="3.0" layoutX="80.0" layoutY="140.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="71.0" text="Nam">
+               <toggleGroup>
+                  <ToggleGroup fx:id="group" />
+               </toggleGroup></RadioButton>
+            <RadioButton id="rdoNu" fx:id="rdoNu" layoutX="159.0" layoutY="140.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="18.0" prefWidth="54.0" text="Nữ" toggleGroup="$group" />
+            <Label layoutX="15.0" layoutY="167.0" text="Ngày sinh">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField id="tfNgaySinh" fx:id="tfNgaySinh" layoutX="25.0" layoutY="190.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="16.0" layoutY="222.0" text="Địa chỉ">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField id="tfDiaChi" fx:id="tfDiaChi" layoutX="26.0" layoutY="245.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="16.0" layoutY="277.0" text="Username">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField id="tfUsername" fx:id="tfUsername" layoutX="25.0" layoutY="299.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="18.0" layoutY="336.0" text="Password">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField id="tfPassword" fx:id="tfPassword" layoutX="25.0" layoutY="362.0" prefHeight="26.0" prefWidth="192.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+      <GridPane layoutX="6.0" layoutY="14.0" prefHeight="32.0" prefWidth="288.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="149.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="149.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="149.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button id="btnThem" fx:id="btnThem" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#ThemNV" prefHeight="32.0" prefWidth="87.0" style="-fx-background-color: rgb(98, 218, 128); -border-radius: 15px;" text="Thêm" textFill="#bc5e28" />
+            <Button id="btnS" fx:id="btnSua" mnemonicParsing="false" onAction="#CapNhatNV" prefHeight="32.0" prefWidth="89.0" style="-fx-background-color: rgb(213, 231, 49);" text="Cập nhật" textAlignment="JUSTIFY" textFill="#7ebc5a" GridPane.columnIndex="1" />
+            <Button id="btnX" fx:id="btnXoa" mnemonicParsing="false" onAction="#XoaNV" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: rgb(231, 146, 49);" text="Xóa" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+      <TableView fx:id="table" layoutX="294.0" layoutY="69.0" onMouseClicked="#MouseClickOnTable" prefHeight="435.0" prefWidth="821.0">
+        <columns>
+          <TableColumn fx:id="IDColum" prefWidth="50.0" text="ID" />
+          <TableColumn fx:id="NameColum" prefWidth="194.0" text="Họ tên" />
+            <TableColumn fx:id="GioiTinhColum" minWidth="8.0" prefWidth="72.0" text="Giới tính" />
+            <TableColumn fx:id="NgaySinhColum" minWidth="0.0" prefWidth="101.0" text="Ngày sinh" />
+            <TableColumn fx:id="DiaChiColum" prefWidth="181.0" text="Địa chỉ" />
+            <TableColumn fx:id="UsernameColum" prefWidth="107.0" text="Username" />
+            <TableColumn fx:id="PasswordColum" prefWidth="113.0" text="Password" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
