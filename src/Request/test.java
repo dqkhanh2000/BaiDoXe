@@ -7,11 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
 
 public class test {
@@ -25,37 +21,49 @@ public class test {
 	public static void main(String[] args) {
 		
 		ConnectDB();
-		try {
-			ServerSocket server = new ServerSocket(8005);
-			System.out.println("Wait");
-			
-				Socket client = server.accept();
-				System.out.println(client.getInetAddress()+" connected");
-				is = new DataInputStream(client.getInputStream());
-				os = new DataOutputStream(client.getOutputStream());
-				while(true) {
-					String s = is.readUTF();
-					System.out.println(s);
-					if(s.startsWith("Add_NhanVien")) {
-						Add_NhanVien(s);
-					}
-					if(s.startsWith("Get_Info_NhanVien")) {
-						Vector vector = Get_Info_NhanVien();
-						for (Object object : vector) {
-							SendData(object);
-						}
-					}
-				}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String login = "Check_Login khanh2 12345", user, pass;
+		user = String.copyValueOf(login.toCharArray(), 12, login.lastIndexOf(" ")-11);
+		pass = String.copyValueOf(login.toCharArray(), login.lastIndexOf(" ")+1, login.length()- login.lastIndexOf(" ")-1);
+		System.out.println(user);
+		System.out.println(pass);
+//		try {
+//			ServerSocket server = new ServerSocket(8005);
+//			System.out.println("Wait");
+//
+//				Socket client = server.accept();
+//				System.out.println(client.getInetAddress()+" connected");
+//				is = new DataInputStream(client.getInputStream());
+//				os = new DataOutputStream(client.getOutputStream());
+//				while(true) {
+//					String s = is.readUTF();
+//					System.out.println(s);
+//					if(s.startsWith("Add_NhanVien")) {
+//						Add_NhanVien(s);
+//					}
+//					if(s.startsWith("Get_Info_NhanVien")) {
+//						Vector vector = Get_Info_NhanVien();
+//						for (Object object : vector) {
+//							SendData(object);
+//						}
+//					}
+//				}
+//
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
-	
+
 	public static void ConnectDB() {
 		try {
 			con = DriverManager.getConnection(URL);
+			CallableStatement cstmt = con.prepareCall("EXEC Check_Login ?, ?, ?");
+				cstmt.setString(1, "khanh2");
+				cstmt.setString(2, "12345");
+				cstmt.registerOutParameter(3, java.sql.Types.INTEGER);
+			//System.out.println(cstmt.execute());
+				cstmt.execute();
+				System.out.println("Levels: " + cstmt.getInt(3));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

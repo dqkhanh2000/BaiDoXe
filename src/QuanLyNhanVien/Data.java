@@ -1,4 +1,4 @@
-package QuanLyNhanVien;
+package src.QuanLyNhanVien;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Vector;
-import QuanLyNhanVienfalse.Controller;
+import src.QuanLyNhanVien.Controller;
 
 public class Data extends Thread{
 	

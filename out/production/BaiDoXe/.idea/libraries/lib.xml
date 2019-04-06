@@ -1,11 +1,13 @@
 <component name="libraryTable">
-  <library name="mssql-jdbc-7.0.0.jre10">
+  <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/mssql-jdbc-7.0.0.jre10.jar!/" />
       <root url="file://C:/Program Files/JavaFX/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://C:/Program Files/JavaFX/lib" />
+    </SOURCES>
     <jarDirectory url="file://C:/Program Files/JavaFX/lib" recursive="false" />
+    <jarDirectory url="file://C:/Program Files/JavaFX/lib" recursive="false" type="SOURCES" />
   </library>
 </component>

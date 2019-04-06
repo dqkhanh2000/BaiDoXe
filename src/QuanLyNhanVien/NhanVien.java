@@ -1,4 +1,4 @@
-package QuanLyNhanVien;
+package src.QuanLyNhanVien;
 
 public class NhanVien {
 	private int ID;

@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Vector;
 
-import QuanLyNhanVien.Controller;
+import src.QuanLyNhanVien.Controller;
 
 public class ConnectServer{
 	private static  Socket socket;

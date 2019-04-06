@@ -1,4 +1,4 @@
-package QuanLy;
+package src.QuanLyNhanVien;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +23,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import QuanLyNhanVien.NhanVien;
-import QuanLyNhanVien.Data;
 
 public class Controller implements Initializable{
 	@FXML
