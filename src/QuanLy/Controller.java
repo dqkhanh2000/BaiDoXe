@@ -99,7 +99,7 @@ public class Controller implements Initializable{
 		Scene scene = null;
 		URL url = null;
 		try {
-			url = new File("src/QuanLyNhanVienfalse/QuanLyNhanVien.fxml").toURL();
+			url = new File("src/QuanLyNhanVien/QuanLyNhanVien.fxml").toURL();
 			Parent root = FXMLLoader.load(url);
 		 	scene = new Scene(root);
 		} catch (MalformedURLException e) {
@@ -107,7 +107,7 @@ public class Controller implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/QuanLyNhanVienfalse/QuanLyNhanVienfalse.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/QuanLyNhanVien/QuanLyNhanVien.fxml"));
 
 		return scene;
 	}
