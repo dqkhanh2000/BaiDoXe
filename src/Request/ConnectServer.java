@@ -13,8 +13,8 @@ import java.util.Vector;
 import src.QuanLyNhanVien.Controller;
 
 public class ConnectServer{
-	private static  Socket socket;
-	private  String addServer = "13.67.49.28";
+	private Socket socket;
+	private  String addServer = "13.76.229.145";
 	private int port = 8005;
 	public ConnectServer() {
 		try {
@@ -25,7 +25,7 @@ public class ConnectServer{
 			e.printStackTrace();
 		}
 	}
-	public static Socket getSocket() {
+	public Socket getSocket() {
 		return socket;
 	}
 	

@@ -9,35 +9,36 @@ import java.util.Vector;
 import src.QuanLyNhanVien.Controller;
 
 public class Data extends Thread{
-	
-	//private  Socket socket;
+
 	private static  Vector reciveData;
-	private  DataInputStream is;
+	private static DataInputStream is;
 	private static  DataOutputStream os;
+	private static Socket socket;
 	
-	public Data(Socket socket) {
+	public Data() {
 		try {
+			this.socket = new Request.ConnectServer().getSocket();
 			is = new DataInputStream(socket.getInputStream());
 			os = new DataOutputStream(socket.getOutputStream());
-			os.writeUTF("Get_Info_NhanVien");
+			os.writeUTF("Get_Info_NhanVien "+ application.Main.GetID_ChuBai());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	public static void refresh() {
 		try {
-			os.writeUTF("Get_Info_NhanVien");
+			os.writeUTF("Get_Info_NhanVien "+ application.Main.GetID_ChuBai());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public void run() {
+
 		try {
 			while(true) {
-				reciveData= (Vector) (new ObjectInputStream(is)).readObject();
+				reciveData= (Vector) new ObjectInputStream(is).readObject();
 				Controller.LoadDB(reciveData);
 			}
 		} catch (IOException e) {
@@ -47,6 +48,7 @@ public class Data extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	public static Vector getReciveData() {
@@ -57,19 +59,10 @@ public class Data extends Thread{
 		if(os != null) {
 			try {
 				os.writeUTF(send);
-				//os.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		else System.out.println("os null");
-	}
-	
-	
-	public static int Get_LastedID() {
-		int rt = 0;
-		Vector<String[]> data = getReciveData();
-		for (String[] row : data) rt = Integer.parseInt(row[0]);
-		return rt;
 	}
 }

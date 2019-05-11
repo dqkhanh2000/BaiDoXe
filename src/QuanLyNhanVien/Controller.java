@@ -17,14 +17,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Controller implements Initializable{
+
 	@FXML
 	private TableView<NhanVien> table;
 	
@@ -87,17 +84,20 @@ public class Controller implements Initializable{
 
 	@FXML 
 	private TableColumn<NhanVien, String> NgaySinhColum;
+
+
 	
 	private static ObservableList<NhanVien> dataTable;
 	private FilteredList<NhanVien> filtered;
-	
-	public Scene getScene(Socket socket){
+
+
+	public Scene getScene(){
 		dataTable = FXCollections.observableArrayList();
-		new Data(socket).start();
+		new Data().start();
 		Scene scene = null;
 		URL url = null;
 		try {
-			url = new File("src/QuanLyNhanVienfalse/QuanLyNhanVien.fxml").toURL();
+			url = new File("src/QuanLyNhanVien/QuanLyNhanVien.fxml").toURL();
 			Parent root = FXMLLoader.load(url);
 		 	scene = new Scene(root);
 		} catch (MalformedURLException e) {
@@ -105,7 +105,6 @@ public class Controller implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/QuanLyNhanVienfalse/QuanLyNhanVienfalse.fxml"));
 
 		return scene;
 	}
@@ -166,7 +165,6 @@ public class Controller implements Initializable{
 	}
 	
 	public void ThemNV() {
-		int ID = Data.Get_LastedID()+1;
 		String Name = tfName.getText();
 		String NgaySinh = tfNgaySinh.getText();
 		String Username = tfUsername.getText();
@@ -175,7 +173,7 @@ public class Controller implements Initializable{
 		String GioiTinh;
 		if(rdoNam.isSelected()) GioiTinh = "Nam";
 		else GioiTinh = "Nữ";
-		Data.SendData("Add_NhanVien N'"+Name+"', '"+NgaySinh+"', N'"+GioiTinh+"', N'"+DiaChi+"', '"+Username+"', '"+Password+"'");
+		Data.SendData("Add_NhanVien "+ application.Main.GetID_ChuBai()+", N'"+Name+"', '"+NgaySinh+"', N'"+GioiTinh+"', N'"+DiaChi+"', '"+Username+"', '"+Password+"'");
 		Data.refresh();
 	}
 	
