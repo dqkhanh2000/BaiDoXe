@@ -4,8 +4,8 @@
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<levels>
-		<level name="lib" value="project"/>
 		<level name="mssql-jdbc-7.0.0.jre101" value="project"/>
 		<level name="bridj-0.6.2" value="project"/>
+		<level name="lib" value="project"/>
 	</levels>
 </component>

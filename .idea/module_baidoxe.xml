@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_baidoxe" default="compile.module.baidoxe">
+  <dirname property="module.baidoxe.basedir" file="${ant.file.module_baidoxe}"/>
+  
+  <property name="module.jdk.home.baidoxe" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.baidoxe" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.baidoxe" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.baidoxe" value="-encoding UTF-8 -source 10 -target 10 ${compiler.args}"/>
+  
+  <property name="baidoxe.output.dir" value="${module.baidoxe.basedir}/../out/production/BaiDoXe"/>
+  <property name="baidoxe.testoutput.dir" value="${module.baidoxe.basedir}/../out/test/BaiDoXe"/>
+  
+  <path id="baidoxe.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="baidoxe.module.production.classpath">
+    <path refid="${module.jdk.classpath.baidoxe}"/>
+    <path refid="library.mssql-jdbc-7.0.0.jre101.classpath"/>
+    <path refid="library.bridj-0.6.2.classpath"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.baidoxe.classpath"/>
+  </path>
+  
+  <path id="baidoxe.runtime.production.module.classpath">
+    <pathelement location="${baidoxe.output.dir}"/>
+    <path refid="library.mssql-jdbc-7.0.0.jre101.classpath"/>
+    <path refid="library.bridj-0.6.2.classpath"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.baidoxe.classpath"/>
+  </path>
+  
+  <path id="baidoxe.module.classpath">
+    <path refid="${module.jdk.classpath.baidoxe}"/>
+    <pathelement location="${baidoxe.output.dir}"/>
+    <path refid="library.mssql-jdbc-7.0.0.jre101.classpath"/>
+    <path refid="library.bridj-0.6.2.classpath"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.baidoxe.classpath"/>
+  </path>
+  
+  <path id="baidoxe.runtime.module.classpath">
+    <pathelement location="${baidoxe.testoutput.dir}"/>
+    <pathelement location="${baidoxe.output.dir}"/>
+    <path refid="library.mssql-jdbc-7.0.0.jre101.classpath"/>
+    <path refid="library.bridj-0.6.2.classpath"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.baidoxe.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.baidoxe">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.baidoxe">
+    <patternset refid="excluded.from.module.baidoxe"/>
+  </patternset>
+  
+  <path id="baidoxe.module.sourcepath">
+    <dirset dir="${module.baidoxe.basedir}/../../BaiDoXe">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.baidoxe" depends="compile.module.baidoxe.production,compile.module.baidoxe.tests" description="Compile module BaiDoXe"/>
+  
+  <target name="compile.module.baidoxe.production" depends="register.custom.compilers" description="Compile module BaiDoXe; production classes">
+    <mkdir dir="${baidoxe.output.dir}"/>
+    <javac2 destdir="${baidoxe.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.baidoxe}/javac">
+      <compilerarg line="${compiler.args.baidoxe}"/>
+      <bootclasspath refid="baidoxe.module.bootclasspath"/>
+      <classpath refid="baidoxe.module.production.classpath"/>
+      <src refid="baidoxe.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.baidoxe"/>
+    </javac2>
+    
+    <copy todir="${baidoxe.output.dir}/src">
+      <fileset dir="${module.baidoxe.basedir}/../src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.baidoxe.tests" depends="register.custom.compilers,compile.module.baidoxe.production" description="compile module BaiDoXe; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.baidoxe" description="cleanup module">
+    <delete dir="${baidoxe.output.dir}"/>
+    <delete dir="${baidoxe.testoutput.dir}"/>
+  </target>
+</project>

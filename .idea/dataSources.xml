@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="reycs.database.windows.net" uuid="08b551e5-c1d1-468d-b7ec-2071abae953f">
+    <data-source source="LOCAL" name="reycs2.database.windows.net" uuid="08b551e5-c1d1-468d-b7ec-2071abae953f">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://reycs.database.windows.net:1433;database=db_BaiDoxe</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://reycs2.database.windows.net:1433;database=db_BaiDoxe</jdbc-url>
       <driver-properties>
         <property name="loginTimeout" value="30" />
         <property name="trustServerCertificate" value="false" />

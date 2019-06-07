@@ -4,7 +4,6 @@
     <root id="archive" name="BaiDoXe.jar">
       <element id="module-output" name="BaiDoXe" />
       <element id="library" level="application" name="BaiDoXe" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mssql-jdbc-7.0.0.jre10.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PATH_TO_FX$/javafx-swt.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PATH_TO_FX$/javafx.web.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PATH_TO_FX$/javafx.base.jar" path-in-jar="/" />

@@ -1,13 +1,16 @@
 <component name="libraryTable">
   <library name="lib">
+    <ANNOTATIONS>
+      <root url="file://F:/BaiDoXe" />
+    </ANNOTATIONS>
     <CLASSES>
-      <root url="file://C:/Program Files/JavaFX/lib" />
+      <root url="file://$PATH_TO_FX$" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="file://C:/Program Files/JavaFX/lib" />
+      <root url="file://$PATH_TO_FX$" />
     </SOURCES>
-    <jarDirectory url="file://C:/Program Files/JavaFX/lib" recursive="false" />
-    <jarDirectory url="file://C:/Program Files/JavaFX/lib" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PATH_TO_FX$" recursive="false" />
+    <jarDirectory url="file://$PATH_TO_FX$" recursive="false" type="SOURCES" />
   </library>
 </component>
