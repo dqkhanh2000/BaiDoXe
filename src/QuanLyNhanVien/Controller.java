@@ -3,7 +3,6 @@ package src.QuanLyNhanVien;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -19,7 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+@SuppressWarnings("ALL")
 public class Controller implements Initializable{
 
 	@FXML
@@ -63,6 +64,9 @@ public class Controller implements Initializable{
 	
 	@FXML 
 	private Button btnXoa;
+
+	@FXML
+	private Button btnTroVe;
 	
 	@FXML 
 	private TableColumn<NhanVien, Integer> IDColum;
@@ -97,7 +101,7 @@ public class Controller implements Initializable{
 		Scene scene = null;
 		URL url = null;
 		try {
-			url = new File("src/QuanLyNhanVien/QuanLyNhanVien.fxml").toURL();
+			url = Controller.class.getClassLoader().getResource("src/QuanLyNhanVien/QuanLyNhanVien.fxml");
 			Parent root = FXMLLoader.load(url);
 		 	scene = new Scene(root);
 		} catch (MalformedURLException e) {
@@ -173,7 +177,7 @@ public class Controller implements Initializable{
 		String GioiTinh;
 		if(rdoNam.isSelected()) GioiTinh = "Nam";
 		else GioiTinh = "Nữ";
-		Data.SendData("Add_NhanVien "+ application.Main.GetID_ChuBai()+", N'"+Name+"', '"+NgaySinh+"', N'"+GioiTinh+"', N'"+DiaChi+"', '"+Username+"', '"+Password+"'");
+		Data.SendData("Add_NhanVien "+ src.application.Main.GetID_ChuBai()+", N'"+Name+"', '"+NgaySinh+"', N'"+GioiTinh+"', N'"+DiaChi+"', '"+Username+"', '"+Password+"'");
 		Data.refresh();
 	}
 	
@@ -213,6 +217,12 @@ public class Controller implements Initializable{
 	public void Refresh() {
 		tfSearch.setText("");
 		Data.refresh();
+	}
+
+	public void TroVe(){
+		Stage primaryStage = src.application.Main.getPrimaryStages();
+		primaryStage.setScene(new src.QuanLy.Controller().getScene(primaryStage));
+		primaryStage.setTitle("Quản lý bãi");
 	}
 	
 }

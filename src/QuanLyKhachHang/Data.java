@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Vector;
-import  src.QuanLyKhachHang.Controller;
 
 public class Data extends Thread {
     public static Vector<String[]> reciveData;
@@ -19,15 +18,15 @@ public class Data extends Thread {
             this.socket = new Request.ConnectServer().getSocket();
             is = new DataInputStream(socket.getInputStream());
             os = new DataOutputStream(socket.getOutputStream());
-            SendData("Get_Info_KhachHang "+ application.Main.GetID_ChuBai());
-            SendData("Get_Info_HopDong "+ application.Main.GetID_ChuBai());
+            SendData("Get_Info_KhachHang "+ src.application.Main.GetID_ChuBai());
+            SendData("Get_Info_HopDong "+ src.application.Main.GetID_ChuBai());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public static void refresh() {
-            SendData("Get_Info_KhachHang "+ application.Main.GetID_ChuBai());
-            SendData("Get_Info_HopDong "+ application.Main.GetID_ChuBai());
+            SendData("Get_Info_KhachHang "+ src.application.Main.GetID_ChuBai());
+            SendData("Get_Info_HopDong "+ src.application.Main.GetID_ChuBai());
     }
 
     @Override
@@ -35,11 +34,9 @@ public class Data extends Thread {
         try {
             while(true) {
                 reciveData = (Vector<String[]>) new ObjectInputStream(is).readObject();
-                reciveData.forEach(strings -> {
-                    if(strings.length == 6) Controller.LoadHopDong(reciveData);
-                    else Controller.LoadInfoKhachHang(reciveData);
-                    return;
-                });
+                String[] data = reciveData.get(0);
+                if( data.length == 5) Controller.LoadInfoKhachHang(reciveData);
+                else Controller.LoadHopDong(reciveData);
 
             }
         } catch (IOException e) {

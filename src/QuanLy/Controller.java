@@ -1,10 +1,11 @@
 package src.QuanLy;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,34 +15,31 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import src.QuanLy.Data;
-import src.QuanLy.BaiDoXe;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
 
+@SuppressWarnings("ALL")
 public class Controller implements Initializable {
+
+    @FXML
+    private Pane pane;
+
     @FXML
     private TableView<BaiDoXe> table;
-
     @FXML
     private TableColumn IDColumn;
-
     @FXML
     private TableColumn TenBaiColumn;
-
-
     @FXML
     private TableColumn DiaChiColumn;
-
     @FXML
     private TableColumn XeMayColumn;
 
@@ -70,15 +68,12 @@ public class Controller implements Initializable {
     private TextField tfGiaXeMay;
     @FXML
     private TextField tfGiaOto;
-
-
     @FXML
     private Button btnThem;
     @FXML
     private Button btnSua;
     @FXML
     private Button btnXoa;
-
     @FXML
     private MenuItem mnQuanLyNhanVien;
     @FXML
@@ -91,13 +86,17 @@ public class Controller implements Initializable {
     @FXML
     private PieChart chartOto;
 
+    private Label caption;
+
     private static ObservableList<BaiDoXe> dataTable;
     private FilteredList<BaiDoXe> filtered;
 
     private static Stage primaryStage = null;
     public static src.QuanLy.Data data = null;
 
-    public Scene getScene(Stage primaryStage){
+    private static Vector<String[]> vector;
+
+    public Scene getScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
         dataTable = FXCollections.observableArrayList();
         this.data = new Data();
@@ -105,7 +104,7 @@ public class Controller implements Initializable {
         Scene scene = null;
         URL url = null;
         try {
-            url = new File("src/QuanLy/Main.fxml").toURL();
+            url = Controller.class.getClassLoader().getResource("src/QuanLy/Main.fxml");
             Parent root = FXMLLoader.load(url);
             scene = new Scene(root);
         } catch (MalformedURLException e) {
@@ -113,14 +112,15 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return scene;
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        caption = new Label("");
+        Platform.runLater(() ->{pane.getChildren().addAll(caption);});
+
         IDColumn.setCellValueFactory(new PropertyValueFactory<BaiDoXe, Integer>("ID"));
         TenBaiColumn.setCellValueFactory(new PropertyValueFactory<BaiDoXe, String>("TenBai"));
         DiaChiColumn.setCellValueFactory(new PropertyValueFactory<BaiDoXe, String>("DiaChi"));
@@ -131,7 +131,7 @@ public class Controller implements Initializable {
         table.setItems(dataTable);
         //search
         filtered = new FilteredList<>(dataTable, p -> true);
-        tfSearch.textProperty().addListener((observable, oldValue, newValue) ->{
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filtered.setPredicate(BaiDoXe -> {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -141,19 +141,15 @@ public class Controller implements Initializable {
                     return true;
                 } else if (BaiDoXe.getTenBai().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                }else if (BaiDoXe.getDiaChi().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (BaiDoXe.getDiaChi().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                }
-                else if (String.valueOf(BaiDoXe.getChoOto()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(BaiDoXe.getChoOto()).contains(lowerCaseFilter)) {
                     return true;
-                }
-                else if (String.valueOf(BaiDoXe.getChoXeMay()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(BaiDoXe.getChoXeMay()).contains(lowerCaseFilter)) {
                     return true;
-                }
-                else if (String.valueOf(BaiDoXe.getGiaOto()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(BaiDoXe.getGiaOto()).contains(lowerCaseFilter)) {
                     return true;
-                }
-                else if (String.valueOf(BaiDoXe.getGiaXeMay()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(BaiDoXe.getGiaXeMay()).contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -165,7 +161,8 @@ public class Controller implements Initializable {
     }
 
     public static void LoadDB(Vector<String[]> data) {
-       dataTable.clear();
+        dataTable.clear();
+        vector = data;
         for (String[] row : data) {
             int ID = Integer.parseInt(row[0]);
             String TenBai = row[1];
@@ -176,9 +173,10 @@ public class Controller implements Initializable {
             int DangDoOto = Integer.parseInt(row[6]);
             double GiaXeMay = Double.parseDouble(row[7]);
             double GiaOto = Double.parseDouble(row[8]);
-            dataTable.add(new BaiDoXe(ID,TenBai,DiaChi,ChoXeMay,ChoOto,DangDoXeMay,DangDoOto,GiaXeMay,GiaOto) );
+            dataTable.add(new BaiDoXe(ID, TenBai, DiaChi, ChoXeMay, ChoOto, DangDoXeMay, DangDoOto, GiaXeMay, GiaOto));
         }
     }
+
     public void ThemBai() {
         String TenBai = tfTenBai.getText();
         String DiaChi = tfDiaChi.getText();
@@ -186,10 +184,11 @@ public class Controller implements Initializable {
         int ChoOto = Integer.parseInt(tfChoOto.getText());
         double GiaXeMay = Double.parseDouble(tfGiaXeMay.getText());
         double GiaOto = Double.parseDouble(tfGiaOto.getText());
-        src.QuanLy.Data.SendData("Add_Bai "+ application.Main.GetID_ChuBai()+", N'"+TenBai+"',N'"+DiaChi+"', "+ChoXeMay+", "+ChoOto+", "+GiaXeMay+", "+GiaOto);
+        src.QuanLy.Data.SendData("Add_Bai " + src.application.Main.GetID_ChuBai() + ", N'" + TenBai + "',N'" + DiaChi + "', " + ChoXeMay + ", " + ChoOto + ", " + GiaXeMay + ", " + GiaOto);
         src.QuanLy.Data.refresh();
     }
-    public void SuaBai(){
+
+    public void SuaBai() {
         int IDBai = Integer.parseInt(tfID.getText());
         String TenBai = tfTenBai.getText();
         String DiaChi = tfDiaChi.getText();
@@ -197,16 +196,18 @@ public class Controller implements Initializable {
         int ChoOto = Integer.parseInt(tfChoOto.getText());
         double GiaXeMay = Double.parseDouble(tfGiaXeMay.getText());
         double GiaOto = Double.parseDouble(tfGiaOto.getText());
-        src.QuanLy.Data.SendData("Update_Bai "+IDBai+", N'"+TenBai+"',N'"+DiaChi+"', "+ChoXeMay+", "+ChoOto+", "+GiaXeMay+", "+GiaOto);
+        src.QuanLy.Data.SendData("Update_Bai " + IDBai + ", N'" + TenBai + "',N'" + DiaChi + "', " + ChoXeMay + ", " + ChoOto + ", " + GiaXeMay + ", " + GiaOto);
         src.QuanLy.Data.refresh();
     }
-    public void XoaBai(){
+
+    public void XoaBai() {
         int IDBai = Integer.parseInt(tfID.getText());
-        src.QuanLy.Data.SendData("Delete_Bai "+IDBai);
+        src.QuanLy.Data.SendData("Delete_Bai " + IDBai);
         src.QuanLy.Data.refresh();
     }
+
     public void MouseClickOnTable() {
-        if(table.getSelectionModel().getSelectedItem()==null) return;
+        if (table.getSelectionModel().getSelectedItem() == null) return;
         double TongChoOto = (double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getChoOto();
         double TongChoXeMay = (double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getChoXeMay();
         tfID.setText(String.valueOf(IDColumn.getCellData(table.getSelectionModel().getSelectedIndex())));
@@ -216,45 +217,65 @@ public class Controller implements Initializable {
         tfChoXeMay.setText(String.valueOf(XeMayColumn.getCellData(table.getSelectionModel().getSelectedIndex())));
         tfGiaOto.setText(String.valueOf(GiaOtoColumn.getCellData(table.getSelectionModel().getSelectedIndex())));
         tfGiaXeMay.setText(String.valueOf(GiaXeMayColumn.getCellData(table.getSelectionModel().getSelectedIndex())));
-        double dangdoOto =(double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getDangDoOto();
-        double dangdoXeMay =(double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getDangDoXeMay();
+        double dangdoOto = (double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getDangDoOto();
+        double dangdoXeMay = (double) dataTable.get(table.getSelectionModel().getSelectedIndex()).getDangDoXeMay();
         chartXeMay.getData().clear();
         chartOto.getData().clear();
         chartXeMay.setLabelsVisible(true);
         chartOto.setLabelsVisible(true);
-        chartOto.getData().add(new PieChart.Data("Đang đỗ", dangdoOto ));
-        chartOto.getData().add(new PieChart.Data("Trống", TongChoOto-dangdoOto ));
-        chartXeMay.getData().add(new PieChart.Data("Đang đỗ", dangdoXeMay ));
-        chartXeMay.getData().add(new PieChart.Data("Trống", TongChoXeMay-dangdoXeMay ));
+        chartOto.getData().add(new PieChart.Data("Đang đỗ", dangdoOto));
+        chartOto.getData().add(new PieChart.Data("Trống", TongChoOto - dangdoOto));
+        chartXeMay.getData().add(new PieChart.Data("Đang đỗ", dangdoXeMay));
+        chartXeMay.getData().add(new PieChart.Data("Trống", TongChoXeMay - dangdoXeMay));
     }
-    public void QuanLyNhanVien(){
+
+    public void QuanLyNhanVien() {
         try {
-            data.stop();
-        }catch (Exception e){e.printStackTrace();}
+            data.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         primaryStage.setScene(new src.QuanLyNhanVien.Controller().getScene());
         primaryStage.setTitle("Quản lý nhân viên");
     }
-    public void QuanLyKhachHang(){
+
+    public void QuanLyKhachHang() {
         try {
             data.stop();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         primaryStage.setScene(new src.QuanLyKhachHang.Controller().getScene());
         primaryStage.setTitle("Quản lý khách hàng");
     }
-    public void MouseClickOnChart(){
-        final Label caption = new Label("");
-        caption.setTextFill(Color.DARKORANGE);
-        caption.setStyle("-fx-font: 24 arial;");
 
-        for (final PieChart.Data data : chartXeMay.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
-                    new EventHandler<MouseEvent>() {
-                        @Override public void handle(MouseEvent e) {
-                            caption.setTranslateX(e.getSceneX());
-                            caption.setTranslateY(e.getSceneY());
-                            caption.setText(String.valueOf(data.getPieValue()) + "%");
-                        }
-                    });
+    public void XemBaoCao() {
+        try {
+            data.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        primaryStage.setScene(new src.BaoCao.Controller().getScene(vector));
+        primaryStage.setTitle("Xem Báo cáo");
+    }
+
+    public void MouseClickOnChart(Event event) {
+        try{
+            caption.setTextFill(Color.DARKORANGE);
+            caption.setStyle("-fx-font: 13 arial; -fx-text-fill: black");
+            PieChart pieChart = (PieChart) event.getSource();
+
+            for (final PieChart.Data data : pieChart.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
+                        e -> {
+                            Platform.runLater(() ->{
+                                caption.setTranslateX(e.getSceneX());
+                                caption.setTranslateY(e.getSceneY());
+                                caption.setText(((int) data.getPieValue())+" xe");
+                            });
+                        });
+            }
+        }
+        catch (Exception e){}
     }
 }

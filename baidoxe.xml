@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="baidoxe" default="all">
+  
+  
+  <property file="baidoxe.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.klib"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+    <include name="*.ane"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.12" value="${jdk.home.12}/bin"/>
+  <path id="jdk.classpath.12">
+    <fileset dir="${jdk.home.12}">
+      <include name="../jdk-12!/java.base"/>
+      <include name="../jdk-12!/java.compiler"/>
+      <include name="../jdk-12!/java.datatransfer"/>
+      <include name="../jdk-12!/java.desktop"/>
+      <include name="../jdk-12!/java.instrument"/>
+      <include name="../jdk-12!/java.logging"/>
+      <include name="../jdk-12!/java.management"/>
+      <include name="../jdk-12!/java.management.rmi"/>
+      <include name="../jdk-12!/java.naming"/>
+      <include name="../jdk-12!/java.net.http"/>
+      <include name="../jdk-12!/java.prefs"/>
+      <include name="../jdk-12!/java.rmi"/>
+      <include name="../jdk-12!/java.scripting"/>
+      <include name="../jdk-12!/java.se"/>
+      <include name="../jdk-12!/java.security.jgss"/>
+      <include name="../jdk-12!/java.security.sasl"/>
+      <include name="../jdk-12!/java.smartcardio"/>
+      <include name="../jdk-12!/java.sql"/>
+      <include name="../jdk-12!/java.sql.rowset"/>
+      <include name="../jdk-12!/java.transaction.xa"/>
+      <include name="../jdk-12!/java.xml"/>
+      <include name="../jdk-12!/java.xml.crypto"/>
+      <include name="../jdk-12!/jdk.accessibility"/>
+      <include name="../jdk-12!/jdk.aot"/>
+      <include name="../jdk-12!/jdk.attach"/>
+      <include name="../jdk-12!/jdk.charsets"/>
+      <include name="../jdk-12!/jdk.compiler"/>
+      <include name="../jdk-12!/jdk.crypto.cryptoki"/>
+      <include name="../jdk-12!/jdk.crypto.ec"/>
+      <include name="../jdk-12!/jdk.crypto.mscapi"/>
+      <include name="../jdk-12!/jdk.dynalink"/>
+      <include name="../jdk-12!/jdk.editpad"/>
+      <include name="../jdk-12!/jdk.hotspot.agent"/>
+      <include name="../jdk-12!/jdk.httpserver"/>
+      <include name="../jdk-12!/jdk.internal.ed"/>
+      <include name="../jdk-12!/jdk.internal.jvmstat"/>
+      <include name="../jdk-12!/jdk.internal.le"/>
+      <include name="../jdk-12!/jdk.internal.opt"/>
+      <include name="../jdk-12!/jdk.internal.vm.ci"/>
+      <include name="../jdk-12!/jdk.internal.vm.compiler"/>
+      <include name="../jdk-12!/jdk.internal.vm.compiler.management"/>
+      <include name="../jdk-12!/jdk.jartool"/>
+      <include name="../jdk-12!/jdk.javadoc"/>
+      <include name="../jdk-12!/jdk.jcmd"/>
+      <include name="../jdk-12!/jdk.jconsole"/>
+      <include name="../jdk-12!/jdk.jdeps"/>
+      <include name="../jdk-12!/jdk.jdi"/>
+      <include name="../jdk-12!/jdk.jdwp.agent"/>
+      <include name="../jdk-12!/jdk.jfr"/>
+      <include name="../jdk-12!/jdk.jlink"/>
+      <include name="../jdk-12!/jdk.jshell"/>
+      <include name="../jdk-12!/jdk.jsobject"/>
+      <include name="../jdk-12!/jdk.jstatd"/>
+      <include name="../jdk-12!/jdk.localedata"/>
+      <include name="../jdk-12!/jdk.management"/>
+      <include name="../jdk-12!/jdk.management.agent"/>
+      <include name="../jdk-12!/jdk.management.jfr"/>
+      <include name="../jdk-12!/jdk.naming.dns"/>
+      <include name="../jdk-12!/jdk.naming.rmi"/>
+      <include name="../jdk-12!/jdk.net"/>
+      <include name="../jdk-12!/jdk.pack"/>
+      <include name="../jdk-12!/jdk.rmic"/>
+      <include name="../jdk-12!/jdk.scripting.nashorn"/>
+      <include name="../jdk-12!/jdk.scripting.nashorn.shell"/>
+      <include name="../jdk-12!/jdk.sctp"/>
+      <include name="../jdk-12!/jdk.security.auth"/>
+      <include name="../jdk-12!/jdk.security.jgss"/>
+      <include name="../jdk-12!/jdk.unsupported"/>
+      <include name="../jdk-12!/jdk.unsupported.desktop"/>
+      <include name="../jdk-12!/jdk.xml.dom"/>
+      <include name="../jdk-12!/jdk.zipfs"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.12}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.12}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.12"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.bridj-0.6.2.classpath">
+    <pathelement location="${basedir}/lib/bridj-0.6.2.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/webcam-capture-0.3.10.jar"/>
+  </path>
+  
+  <path id="library.lib.classpath">
+    <fileset dir="${path.variable.path_to_fx}">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="library.mssql-jdbc-7.0.0.jre101.classpath">
+    <pathelement location="${basedir}/lib/mssql-jdbc-7.0.0.jre10.jar"/>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  <path id="library.baidoxe.classpath">
+    <pathelement location="C:/Users/reycs/eclipse-workspace/BaiDoXe"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/.idea/module_baidoxe.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.baidoxe" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.baidoxe" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.baidoxe:jar" value="D:/"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.BaiDoXe.jar" value="${artifacts.temp.dir}/BaiDoXe.jar"/>
+  </target>
+  
+  <target name="artifact.baidoxe:jar" depends="init.artifacts, compile.module.baidoxe" description="Build &#39;BaiDoXe:jar&#39; artifact">
+    <property name="artifact.temp.output.baidoxe:jar" value="${artifacts.temp.dir}/BaiDoXe_jar"/>
+    <mkdir dir="${artifact.temp.output.baidoxe:jar}"/>
+    <jar destfile="${temp.jar.path.BaiDoXe.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${baidoxe.output.dir}"/>
+      <zipfileset src="${path.variable.path_to_fx}/src.zip"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx-swt.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.web.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.base.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.fxml.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.media.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.swing.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.controls.jar"/>
+      <zipfileset src="${path.variable.path_to_fx}/javafx.graphics.jar"/>
+      <zipfileset src="${basedir}/lib/mssql-jdbc-7.0.0.jre10.jar"/>
+      <zipfileset src="${basedir}/lib/bridj-0.6.2.jar"/>
+      <zipfileset src="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+      <zipfileset src="${basedir}/lib/webcam-capture-0.3.10.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.BaiDoXe.jar}" tofile="${artifact.temp.output.baidoxe:jar}/BaiDoXe.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.baidoxe:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.baidoxe:jar}"/>
+    <copy todir="${artifact.output.baidoxe:jar}">
+      <fileset dir="${artifact.temp.output.baidoxe:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>

@@ -17,15 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Date;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import src.QuanLyKhachHang.Data;
-import src.QuanLyKhachHang.KhachHang;
-import src.QuanLyNhanVien.NhanVien;
-
-
+@SuppressWarnings("ALL")
 public class Controller implements Initializable {
 
     @FXML
@@ -96,8 +91,12 @@ public class Controller implements Initializable {
     private Button btnXoaHD;
 
     @FXML
+    private Button btnTroVe;
+
+    @FXML
     private ComboBox<Integer> cbbID;
 
+    @FXML private ChoiceBox cbbLoaiXe;
 
     private static ObservableList<KhachHang>dataTable;
     private static ObservableList<HopDong>dataHopDong;
@@ -114,7 +113,7 @@ public class Controller implements Initializable {
         Scene scene = null;
         URL url = null;
         try {
-            url = new File("src/QuanLyKhachHang/QuanLyKhachHang.fxml").toURL();
+            url = Controller.class.getClassLoader().getResource("src/QuanLyKhachHang/QuanLyKhachHang.fxml");
             Parent root = FXMLLoader.load(url);
             scene = new Scene(root);
         } catch (MalformedURLException e) {
@@ -126,6 +125,11 @@ public class Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        cbbLoaiXe.getItems().addAll("Xe máy", "Ô tô");
+        cbbLoaiXe.setOnAction(actionEvent -> {
+            mouseClickOncbb();
+        });
+
         IDColumn.setCellValueFactory(new PropertyValueFactory<KhachHang, Integer>("ID_KH"));
         NameColumn.setCellValueFactory(new PropertyValueFactory<KhachHang, String>("Name"));
         NgaySinhColumn.setCellValueFactory(new PropertyValueFactory<KhachHang, String>("NgaySinh"));
@@ -181,7 +185,8 @@ public class Controller implements Initializable {
             String ThoiGianKy = row[3];
             float GiaTri = Float.parseFloat(row[4]);
             String ThoiHan = row[5];
-            dataHopDong.add(new HopDong(ID_HopDong, ID_KhachHang, BienSo, ThoiGianKy, GiaTri, ThoiHan));
+            String LoaiXe = row[6];
+            dataHopDong.add(new HopDong(ID_HopDong, ID_KhachHang, BienSo, ThoiGianKy, GiaTri, ThoiHan, LoaiXe));
         }
     }
     public void ThemKH(){
@@ -189,7 +194,7 @@ public class Controller implements Initializable {
         String NgaySinh = tfNgaySinh.getText();
         String SDT = tfSDT.getText();
         String DiaChi = tfDiaChi.getText();
-        Data.SendData("Add_KhachHang "+ application.Main.GetID_ChuBai() +", N'"+Name+"', '"+
+        Data.SendData("Add_KhachHang "+ src.application.Main.GetID_ChuBai() +", N'"+Name+"', '"+
                 NgaySinh+"', '"+SDT+"', N'"+DiaChi+"'");
         Data.refresh();
     }
@@ -214,8 +219,9 @@ public class Controller implements Initializable {
         String ThoiGianKy = tfTGKy.getText();
         String Gia = tfGia.getText();
         String ThoiHan = tfThoiHan.getText();
-        Data.SendData("Add_HopDong "+ application.Main.GetID_ChuBai()+", "+ IDKH +", N'"+BienSo+"', '"+
-                ThoiGianKy+"', "+Gia+", '"+ThoiHan+"'");
+        String LoaiXe = (String) cbbLoaiXe.getSelectionModel().getSelectedItem();
+        Data.SendData("Add_HopDong "+ src.application.Main.GetID_ChuBai()+", "+ IDKH +", N'"+BienSo+"', N'"+
+                LoaiXe+"', '"+ThoiGianKy+"', "+Gia+", '"+ThoiHan+"'");
         Data.refresh();
     }
     public void SuaHD(){
@@ -230,6 +236,11 @@ public class Controller implements Initializable {
         int ID = cbbID.getValue();
         Data.SendData("Delete_HopDong "+ ID);
         Data.refresh();
+    }
+    public void TroVe(){
+        Stage primaryStage = src.application.Main.getPrimaryStages();
+        primaryStage.setScene(new src.QuanLy.Controller().getScene(primaryStage));
+        primaryStage.setTitle("Quản lý bãi");
     }
 
     public void MouseClickOnTable() {
@@ -248,11 +259,15 @@ public class Controller implements Initializable {
             if(IDKH == hd.getID_KhachHang()) {
                 filteredHopDong.add(hd);
                 cbbID.getItems().add(hd.getID_HopDong());
+                cbbID.getSelectionModel().selectFirst();
             }
-            tfBienSo.setText("");
-            tfTGKy.setText("");
-            tfGia.setText("");
-            tfThoiHan.setText("");
+            else {
+                tfBienSo.setText("");
+                tfTGKy.setText("");
+                tfGia.setText("");
+                tfThoiHan.setText("");
+                cbbLoaiXe.getSelectionModel().select(null);
+            }
         }
     }
     public void mouseClickOncbb(){
@@ -262,6 +277,7 @@ public class Controller implements Initializable {
                 tfTGKy.setText(String.valueOf(hd.getThoiGianKy()));
                 tfGia.setText(String.valueOf(hd.getGiaTri()));
                 tfThoiHan.setText(String.valueOf(hd.getThoiHan()));
+                cbbLoaiXe.getSelectionModel().select(String.valueOf(hd.getLoaiXe()));
             }
         }
     }

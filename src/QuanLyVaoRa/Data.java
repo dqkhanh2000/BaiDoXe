@@ -33,13 +33,7 @@ public class Data extends Thread{
 				reciveData= (Vector) new ObjectInputStream(is).readObject();
 				Controller.getData(reciveData);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 
 	}
 

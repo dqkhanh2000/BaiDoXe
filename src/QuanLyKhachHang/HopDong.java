@@ -8,15 +8,16 @@ public class HopDong {
     private String BienSo;
     private String ThoiGianKy;
     private float GiaTri;
-    private String ThoiHan;
+    private String ThoiHan, LoaiXe;
 
-    public HopDong(int ID_HopDong, int ID_KhachHang, String BienSo, String ThoiGianKy, float GiaTri, String ThoiHan){
+    public HopDong(int ID_HopDong, int ID_KhachHang, String BienSo, String ThoiGianKy, float GiaTri, String ThoiHan, String loaixe){
         this.ID_HopDong = ID_HopDong;
         this.ID_KhachHang = ID_KhachHang;
         this.BienSo = BienSo;
         this.ThoiGianKy = ThoiGianKy;
         this.GiaTri = GiaTri;
         this.ThoiHan = ThoiHan;
+        this.LoaiXe = loaixe;
     }
 
     public int getID_HopDong() {
@@ -41,5 +42,9 @@ public class HopDong {
 
     public String getThoiHan() {
         return ThoiHan;
+    }
+
+    public String getLoaiXe() {
+        return LoaiXe;
     }
 }

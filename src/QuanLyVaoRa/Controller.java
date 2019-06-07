@@ -1,14 +1,10 @@
 package src.QuanLyVaoRa;
 
 import com.github.sarxos.webcam.Webcam;
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import com.github.sarxos.webcam.WebcamPanel;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +12,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,24 +24,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
-import java.awt.image.RenderedImage;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@SuppressWarnings("ALL")
 public class Controller implements Initializable {
 
     @FXML
@@ -174,20 +161,23 @@ public class Controller implements Initializable {
 
         dangdoXeMay = new SimpleIntegerProperty();
         dangdoOto = new SimpleIntegerProperty();
-        dangdoOto.addListener((observableValue, oldvalue, newvalue) -> {
-            trongOto = tongOto - newvalue.intValue();
+
+        dangdoXeMay.addListener((observableValue, oldvalue, newvalue) -> {
+            trongXeMay = tongXeMay - newvalue.intValue();
             if(tab.equals("Xe máy")){
                 lblChoTrong.setText(String.valueOf(trongXeMay));
                 lblSoXe.setText(String.valueOf(dangdoXeMay.getValue()));
             }
+
         });
-        dangdoXeMay.addListener((observableValue, oldvalue, newvalue) -> {
-            trongXeMay = tongXeMay - newvalue.intValue();
+        dangdoOto.addListener((observableValue, oldvalue, newvalue) -> {
+            trongOto = tongOto - newvalue.intValue();
             if(tab.equals("Ô tô")){
                 lblChoTrong.setText(String.valueOf(trongOto));
                 lblSoXe.setText(String.valueOf(dangdoOto.getValue()));
             }
         });
+
         dataXeVao = FXCollections.observableArrayList();
         StartClock();
         new Data().start();
@@ -224,13 +214,13 @@ public class Controller implements Initializable {
                     String lowerCaseFilter = newValue.toLowerCase();
                     if(xeVao.getBienSo().contains(lowerCaseFilter)) return true;
                     else if(xeVao.getID_TK() != null){
-                        if(xeVao.getID_TK().contains(lowerCaseFilter))return true;
+                        return xeVao.getID_TK().contains(lowerCaseFilter);
                     }
                     else if(xeVao.getID_The() != null){
-                            if(xeVao.getID_The().contains(lowerCaseFilter)) return true;
+                        return xeVao.getID_The().contains(lowerCaseFilter);
                     }
                     else if(xeVao.getThoiGian().contains(lowerCaseFilter)) return true;
-                    else if(xeVao.getGhiChu().contains(lowerCaseFilter)) return true;
+                    else return xeVao.getGhiChu().contains(lowerCaseFilter);
                 }
                 return false;
             });
@@ -247,8 +237,8 @@ public class Controller implements Initializable {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        for (String s[]:data) {
-            String IDThe = null, IDNV,IDTK= null, BienSo, ThoiGian = null, GhiChu, Loaixe;
+        for (String[] s :data) {
+            String IDThe = null, IDNV,IDTK= null, BienSo, ThoiGian = null, GhiChu, Loaixe = null;
             if(s[0] != null) IDThe = s[0].trim();
             else IDTK = s[1].trim();
             IDNV = s[2];
@@ -259,7 +249,7 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
             GhiChu = s[5];
-            Loaixe = s[7];
+            if (s[7] != null) Loaixe = s[7].trim();
             XeVao xeVao = new XeVao(IDThe, IDTK, IDNV, BienSo, ThoiGian, GhiChu, Loaixe);
             xeVao.setIDVao(Integer.parseInt(s[6]));
             if(s[8] != null ) xeVao.setImgMat(getImage(s[8].trim()));
@@ -272,7 +262,7 @@ public class Controller implements Initializable {
         Scene scene = null;
         URL url = null;
         try {
-            url = new File("src/QuanLyVaoRa/QuanLyVao.fxml").toURL();
+            url = Controller.class.getClassLoader().getResource("src/QuanLyVaoRa/QuanLyVao.fxml");
             scene = new Scene(FXMLLoader.load(url));
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -287,7 +277,8 @@ public class Controller implements Initializable {
         Tooltip.install(imgView, new Tooltip("Nếu ảnh không rõ bấm để chụp lại"));
         Image img = SwingFXUtils.toFXImage(webcam.getImage(), null);
         imgView.setImage(img);
-    };
+    }
+
     public void XacNhanXeVao(){
         String IDThe, IDTK, BienSo, ThoiGian, GhiChu, LoaiXe;
         if(tfIDTK.getText().startsWith("T")) {
@@ -298,7 +289,7 @@ public class Controller implements Initializable {
             IDTK = tfIDTK.getText().trim();
             IDThe = "NULL";
         }
-        int IDNV = application.Main.getID_NhanVien();
+        int IDNV = src.application.Main.getID_NhanVien();
         BienSo = tfBienSoVao.getText().trim();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -358,24 +349,20 @@ public class Controller implements Initializable {
         else dangdoOto.set(dangdoOto.getValue()-1);
     }
     public void StartClock(){
-        Thread threadClock = new Thread(new Runnable(){
-
-            @Override
-            public void run() {
-               while (true){
-                   Calendar calendar = Calendar.getInstance();
-                   SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-                   String time = format.format(calendar.getTime());
-                   try {
-                       Platform.runLater(() -> {
-                           lblClock.setText(time);
-                       });
-                       Thread.sleep(1000);
-                   } catch (Exception e) {
-                       e.printStackTrace();
-                   }
+        Thread threadClock = new Thread(() -> {
+           while (true){
+               Calendar calendar = Calendar.getInstance();
+               SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+               String time = format.format(calendar.getTime());
+               try {
+                   Platform.runLater(() -> {
+                       lblClock.setText(time);
+                   });
+                   Thread.sleep(1000);
+               } catch (Exception e) {
+                   e.printStackTrace();
                }
-            }
+           }
         });
         threadClock.start();
     }
@@ -417,8 +404,7 @@ public class Controller implements Initializable {
         filtered.setPredicate(xeVao -> {
             if(data.equals(xeVao.getID_TK())) return true;
             else if(data.equals(xeVao.getID_The())) return true;
-            else if(data.equals(xeVao.getBienSo())) return true;
-            return false;
+            else return data.equals(xeVao.getBienSo());
         });
         Tooltip tooltip = new Tooltip("Không tìm thấy thông tin ");
         if(filtered.isEmpty()) {
@@ -510,14 +496,10 @@ public class Controller implements Initializable {
         }
     }
 
-
     public void setTab(){
         filteredTable = new FilteredList<>(dataXeVao, p -> true);
         filteredTable.setPredicate(xeVao -> {
-            if(xeVao.getLoaiXe().equals(tab)){
-                return true;
-            }
-            return false;
+            return xeVao.getLoaiXe().equals(tab);
         });
         SortedList<XeVao> sortedData = new SortedList<>(filteredTable);
         sortedData.comparatorProperty().bind(table.comparatorProperty());
@@ -529,23 +511,25 @@ public class Controller implements Initializable {
         searchXeVao(bienso, null);
     }
 
-    public static void setDangdoXeMay(int dangdoXemay) {
-        dangdoXeMay.setValue(dangdoXemay);
-    }
     public void setlblChoTrong(){
         lblChoTrong.setText(String.valueOf(trongXeMay));
         lblSoXe.setText(String.valueOf(dangdoXeMay.getValue()));
     }
+
+    public static void setDangdoXeMay(int dangdoXemay) {
+        dangdoXeMay.setValue(dangdoXemay);
+    }
+
     public static void setDangdoOto(int dangdooto) {
         dangdoOto.setValue(dangdooto);
     }
 
     public static void setTongOto(int tongoto) {
-        Controller.tongOto = tongoto;
+        tongOto = tongoto;
     }
 
     public static void setTongXemay(int tongXemay) {
-        Controller.tongXeMay = tongXemay;
+       tongXeMay = tongXemay;
     }
 
     public String getImageName(String BienSo, String type){

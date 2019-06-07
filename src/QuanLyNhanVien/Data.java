@@ -20,14 +20,14 @@ public class Data extends Thread{
 			this.socket = new Request.ConnectServer().getSocket();
 			is = new DataInputStream(socket.getInputStream());
 			os = new DataOutputStream(socket.getOutputStream());
-			os.writeUTF("Get_Info_NhanVien "+ application.Main.GetID_ChuBai());
+			os.writeUTF("Get_Info_NhanVien "+ src.application.Main.GetID_ChuBai());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	public static void refresh() {
 		try {
-			os.writeUTF("Get_Info_NhanVien "+ application.Main.GetID_ChuBai());
+			os.writeUTF("Get_Info_NhanVien "+ src.application.Main.GetID_ChuBai());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
